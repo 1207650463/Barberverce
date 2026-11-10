@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#24171c">
+  <title>Barberverse | O universo das barbearias</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+
+<header class="header">
+  <a class="logo" href="#">
+    BARBER<span>VERSE</span><small>O UNIVERSO DAS BARBEARIAS</small>
+  </a>
+
+  <button class="menu-btn" id="menuBtn">☰</button>
+
+  <nav id="nav">
+    <a href="#inicio">Início</a>
+    <a href="#explorar">Explorar</a>
+    <a href="#mapa">Mapa</a>
+    <a href="#sobre">Sobre</a>
+    <button class="outline-btn" onclick="abrirCadastro()">Cadastrar barbearia</button>
+    <button class="gold-btn" onclick="abrirLogin()">Minha conta</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="hero-content">
+      <span class="eyebrow">BARBERVERSE • BARBER NETWORK</span>
+      <h1>Seu estilo.<br><em>Seu lugar.</em><br>Seu universo.</h1>
+      <p>Descubra barbearias, conheça profissionais e encontre o lugar certo para seu próximo corte.</p>
+      <div class="hero-actions">
+        <a href="#explorar" class="gold-btn">Explorar barbearias ↗</a>
+        <button class="light-btn" onclick="abrirCadastro()">Cadastrar estabelecimento</button>
+      </div>
+      <div class="hero-note">Uma nova experiência para quem vive o universo da barbearia.</div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-circle"></div>
+      <div class="hero-card">
+        <span class="eyebrow">ENCONTRE SEU PRÓXIMO CORTE</span>
+        <div class="hero-symbol">B<span>V</span></div>
+        <h2>BARBERVERSE</h2>
+        <p>O universo das barbearias em um só lugar.</p>
+        <div class="hero-line"></div>
+        <small>DISCOVER • CONNECT • BOOK</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div><strong id="totalBarbearias">0</strong><span>Barbearias</span></div>
+    <div><strong id="totalAvaliacoes">0</strong><span>Avaliações</span></div>
+    <div><strong>3</strong><span>Cidades iniciais</span></div>
+    <div><strong>∞</strong><span>Possibilidades</span></div>
+  </section>
+
+  <section class="section" id="explorar">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">ENCONTRE SEU LUGAR</span>
+        <h2>Explore <em>barbearias</em></h2>
+        <p>Encontre estabelecimentos e profissionais perto de você.</p>
+      </div>
+      <button class="gold-btn" onclick="abrirCadastro()">+ Adicionar barbearia</button>
+    </div>
+
+    <div class="filters">
+      <input id="busca" type="search" placeholder="Buscar barbearia ou barbeiro...">
+      <select id="filtroCidade">
+        <option value="">Todas as cidades</option>
+        <option>Mirandiba</option>
+        <option>Carnaubeira da Penha</option>
+        <option>Cachoeirinha</option>
+      </select>
+      <select id="filtroOrdem">
+        <option value="recentes">Mais recentes</option>
+        <option value="avaliacao">Melhor avaliadas</option>
+        <option value="nome">Ordem alfabética</option>
+      </select>
+    </div>
+
+    <div class="results-line">
+      <span id="resultadoTexto">Carregando estabelecimentos...</span>
+      <span class="live-dot">● Catálogo</span>
+    </div>
+
+    <div class="barber-grid" id="listaBarbearias"></div>
+  </section>
+
+  <section class="map-section" id="mapa">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">LOCALIZAÇÃO</span>
+        <h2>Encontre no <em>mapa</em></h2>
+        <p>Veja onde estão as barbearias cadastradas.</p>
+      </div>
+    </div>
+    <div id="map"></div>
+    <p class="map-note">Os pontos cadastrados nesta versão demonstrativa usam a localização aproximada da cidade. O endereço exato pode ser configurado em uma integração futura.</p>
+  </section>
+
+  <section class="join-section" id="sobre">
+    <div>
+      <span class="eyebrow">FAÇA PARTE DO UNIVERSO</span>
+      <h2>Sua barbearia merece ser <em>encontrada.</em></h2>
+      <p>Apresente seu estabelecimento, mostre seus serviços e conecte-se com novos clientes.</p>
+      <button class="gold-btn" onclick="abrirCadastro()">Cadastrar minha barbearia ↗</button>
+    </div>
+    <div class="join-seal">BV<span>✦</span></div>
+  </section>
+</main>
+
+<footer>
+  <a class="logo" href="#">BARBER<span>VERSE</span></a>
+  <p>O universo das barbearias em um só lugar.</p>
+  <small>© <span id="ano"></span> Barberverse. Projeto em versão demonstrativa.</small>
+</footer>
+
+<!-- MODAL DE LOGIN / PERFIL -->
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <button class="close" onclick="fecharModais()">×</button>
+    <span class="eyebrow">SUA CONTA</span>
+    <h2 id="tituloLogin">Entre no Barberverse</h2>
+    <p>Informe seu nome e telefone para criar ou acessar seu perfil neste navegador.</p>
+    <form id="formLogin">
+      <label>Seu nome</label>
+      <input id="nomeUsuario" required maxlength="60" placeholder="Como podemos chamar você?">
+      <label>Número de telefone</label>
+      <input id="telefoneUsuario" required type="tel" placeholder="(87) 99999-9999">
+      <button class="gold-btn full">Continuar</button>
+    </form>
+    <p class="small-note">Versão demonstrativa: não há envio de SMS nem validação de identidade.</p>
+  </div>
+</div>
+
+<!-- MODAL DE CADASTRO DE BARBEARIA -->
+<div class="modal" id="cadastroModal">
+  <div class="modal-box wide">
+    <button class="close" onclick="fecharModais()">×</button>
+    <span class="eyebrow">NOVO ESTABELECIMENTO</span>
+    <h2>Cadastre sua <em>barbearia.</em></h2>
+    <p>Preencha as informações para adicionar seu estabelecimento ao catálogo.</p>
+
+    <form id="formBarbearia" class="form-grid">
+      <div class="field full-field">
+        <label>Nome da barbearia *</label>
+        <input id="barberNome" required maxlength="70" placeholder="Ex.: Barbearia Central">
+      </div>
+      <div>
+        <label>Cidade *</label>
+        <select id="barberCidade" required>
+          <option value="">Selecione</option>
+          <option>Mirandiba</option>
+          <option>Carnaubeira da Penha</option>
+          <option>Cachoeirinha</option>
+        </select>
+      </div>
+      <div>
+        <label>Bairro</label>
+        <input id="barberBairro" maxlength="60" placeholder="Seu bairro">
+      </div>
+      <div class="full-field">
+        <label>Endereço *</label>
+        <input id="barberEndereco" required maxlength="120" placeholder="Rua, número e referência">
+      </div>
+      <div>
+        <label>Telefone / WhatsApp *</label>
+        <input id="barberTelefone" required type="tel" placeholder="(87) 99999-9999">
+      </div>
+      <div>
+        <label>Nome do responsável</label>
+        <input id="barberResponsavel" maxlength="60" placeholder="Nome do proprietário">
+      </div>
+      <div>
+        <label>Horário de funcionamento</label>
+        <input id="barberHorario" placeholder="Ex.: Seg–Sáb, 8h às 18h">
+      </div>
+      <div>
+        <label>Preço inicial (R$)</label>
+        <input id="barberPreco" type="number" min="0" step="0.50" placeholder="Ex.: 25">
+      </div>
+      <div class="full-field">
+        <label>Serviços oferecidos</label>
+        <input id="barberServicos" placeholder="Corte, barba, sobrancelha...">
+      </div>
+      <div class="full-field">
+        <label>Descrição</label>
+        <textarea id="barberDescricao" maxlength="400" placeholder="Conte um pouco sobre sua barbearia..."></textarea>
+      </div>
+      <div class="full-field">
+        <label>Nome dos barbeiros</label>
+        <input id="barberEquipe" placeholder="Separe os nomes por vírgula">
+      </div>
+      <div class="full-field">
+        <label>Link de uma foto (opcional)</label>
+        <input id="barberFoto" type="url" placeholder="https://...">
+      </div>
+      <div class="full-field">
+        <button class="gold-btn full">Cadastrar barbearia</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL DE DETALHES -->
+<div class="modal" id="detalheModal">
+  <div class="modal-box wide">
+    <button class="close" onclick="fecharModais()">×</button>
+    <div id="detalheConteudo"></div>
+  </div>
+</div>
+
+<!-- MODAL DE AVALIAÇÃO -->
+<div class="modal" id="avaliacaoModal">
+  <div class="modal-box">
+    <button class="close" onclick="fecharModais()">×</button>
+    <span class="eyebrow">SUA OPINIÃO</span>
+    <h2>Avalie a experiência</h2>
+    <form id="formAvaliacao">
+      <input type="hidden" id="avaliacaoId">
+      <label>Seu nome</label>
+      <input id="avaliacaoNome" required maxlength="50" placeholder="Seu nome">
+      <label>Nota</label>
+      <select id="avaliacaoNota" required>
+        <option value="5">★★★★★ — Excelente</option>
+        <option value="4">★★★★ — Muito bom</option>
+        <option value="3">★★★ — Bom</option>
+        <option value="2">★★ — Pode melhorar</option>
+        <option value="1">★ — Ruim</option>
+      </select>
+      <label>Comentário</label>
+      <textarea id="avaliacaoTexto" required maxlength="350" placeholder="Conte como foi sua experiência..."></textarea>
+      <button class="gold-btn full">Enviar avaliação</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+          </html>
